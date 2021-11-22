@@ -19,9 +19,6 @@ public class Module {
     
     private int idModule;
 
-    public String getIntitule() {
-        return intitule;
-    }
 
     public void setIntitule(Connection con, int id, String intitule)throws SQLException {
         String sql = "UPDATE Module SET intitule = ? WHERE id = ?";
@@ -30,10 +27,6 @@ public class Module {
             pst.setInt(2, id);
             pst.executeUpdate();
         }
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     public void setDescription(Connection con, int id, String description)throws SQLException {
@@ -53,9 +46,6 @@ public class Module {
         this.idModule = idModule;
     }
 
-    public int getIdSemestre() {
-        return idSemestre;
-    }
 
     public void setIdSemestre(Connection con, int id, int idSemestre)throws SQLException {
         String sql = "UPDATE Module SET idSemestre = ? WHERE id = ?";
@@ -64,10 +54,6 @@ public class Module {
             pst.setInt(2, id);
             pst.executeUpdate();
         }
-    }
-
-    public int getAnnee() {
-        return Annee;
     }
 
     public void setAnnee(Connection con, int id, int annee)throws SQLException {
@@ -79,10 +65,6 @@ public class Module {
         }
     }
 
-    public int getNbrDePlaces() {
-        return nbrDePlaces;
-    }
-
     public void setNbrDePlaces(Connection con, int id, int nbrDePlaces)throws SQLException {
         String sql = "UPDATE Module SET nbrDePlaces = ? WHERE id = ?";
         try(PreparedStatement pst = con.prepareStatement(sql)){
@@ -92,9 +74,6 @@ public class Module {
         }
     }
 
-    public int getIdResponsable() {
-        return idResponsable;
-    }
 
     public void setIdResponsable(Connection con, int id, int idResponsable)throws SQLException {
         String sql = "UPDATE Module SET idResponsable = ? WHERE id = ?";

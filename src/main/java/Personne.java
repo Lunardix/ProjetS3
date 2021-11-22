@@ -163,19 +163,20 @@ public class Personne {
         this.idPersonne = -1;
     }
     
-    public void savePersonne(Connection con, java.sql.Date date, String prenom, String nom, String mdp, String email) 
+    public void savePersonne(Connection con, java.sql.Date date, String prenom, String nom, String mdp, String email, boolean admin) 
         throws SQLException {
         
         Personne personne = new Personne();
         
         try (PreparedStatement pst = con.prepareStatement(
-        "insert into Personne (date,prenom,nom,email,mdp)values (?,?,?,?,?)", 
+        "insert into Personne (date,prenom,nom,email,mdp,admin)values (?,?,?,?,?,?)", 
                 PreparedStatement.RETURN_GENERATED_KEYS)) {
         pst.setDate(1, date);
         pst.setString(2, prenom);
         pst.setString(3, nom);
         pst.setString(4, email);
         pst.setString(5, mdp);
+        pst.setBoolean(6, admin);
         pst.executeUpdate();
         ResultSet nouvellesCles = pst.getGeneratedKeys();
         nouvellesCles.next();

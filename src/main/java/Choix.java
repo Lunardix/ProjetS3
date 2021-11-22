@@ -23,22 +23,6 @@ public class Choix {
         return idChoix;
     }
 
-    public int getIdModule1() {
-        return idModule1;
-    }
-
-    public int getIdModule2() {
-        return idModule2;
-    }
-
-    public int getIdModule3() {
-        return idModule3;
-    }
-
-    public int getIdPersonne() {
-        return idPersonne;
-    }
-
     public void setIdPersonne(Connection con, int id, int idPersonne)throws SQLException {
         String sql = "UPDATE Choix SET idPersonne = ? WHERE id = ?";
         try(PreparedStatement pst = con.prepareStatement(sql)){
@@ -47,8 +31,6 @@ public class Choix {
             pst.executeUpdate();
         }
     }
-    
-    
     
     public void setIdModule3(Connection con, int id, int idModule3)throws SQLException {
         String sql = "UPDATE Choix SET idModule3 = ? WHERE id = ?";

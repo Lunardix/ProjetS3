@@ -31,7 +31,7 @@ public class initialisationBaseDeDonnees {
             }
         }
     
-    //méthode qui crée toutes les tables qui vont être utilisées
+    //mï¿½thode qui crï¿½e toutes les tables qui vont ï¿½tre utilisï¿½es
     public void initialisationTables(Connection con)throws SQLException{
         //initialisation table Personne
         try (Statement st = con.createStatement()) {
@@ -67,6 +67,12 @@ public class initialisationBaseDeDonnees {
         try (Statement st = con.createStatement()) {
         st.executeUpdate(
         "create table Module(id integer primary key generated always as identity,intitule varchar(50),description text,idModule int,idSemestre int,idAnnee int,nbrDePlaces int,idResponsable int)");
+        }
+        
+        //initialisation table GroupeModule
+        try(Statement st = con.createSatement()){
+            st.executeUpdate(
+            "create table GroupeModule (id integer primary key generated always as identity, nom varchar(40),idModule1 int,idModule2 int,idModule3 int,idModule4 int,idModule5 int,idModule6 int,idModule7 int,idModule8 int,idModule9 int,idModule10 int");
         }
     }
 }

@@ -33,28 +33,16 @@ public class GroupeModule {
         this.idGroupeModule = -1;
     }
 
- 
-    public String getNom() {
-        return nom;
+    public void setNom(Connection con, int id, String nom)throws SQLException {
+        String sql = "UPDATE GroupeModule SET nom = ? WHERE id = ?";
+        try(PreparedStatement pst = con.prepareStatement(sql)){
+            pst.setString(1, nom);
+            pst.setInt(2, id);
+            pst.executeUpdate();
+        }
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public ArrayList<Integer> getListeModules() {
-        return listeModules;
-    }
-    
-   public int getSize(){
-       return this.listeModules.size();
-   }
-
-    public void setListeModules(ArrayList<Integer> listeModules) {
-        this.listeModules = listeModules;
-    }
-    
-    // ici on utilisera une fct changeIdModule(numéroDuModuleAChanger, idNouveauModule) 
+    // ici on utilisera une ft changeIdModule(numéroDuModuleAChanger, idNouveauModule) 
     //
     //
     //
@@ -63,7 +51,7 @@ public class GroupeModule {
     
     
     
-    public void ajouterModule(int idModule){
+    public void ajouterModule(int idgroupeModule, int idModule){
         if (this.getSize() == nbrModulesMax){
             return;
             // affichage de l'erreur (groupe trop grand)

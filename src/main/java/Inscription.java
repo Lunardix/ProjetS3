@@ -19,20 +19,7 @@ public class Inscription {
     
     private int idInscription;
 
-        
-    public int getIdModule() {
-        return idModule;
-    }
-    
-  
-    public int getIdPersonne() {
-        return idPersonne;
-    }
 
-  
-    public int getIdSemestre() {
-        return idSemestre;
-    }
 
     public void setIdInscription(int idInscription) {
         this.idInscription = idInscription;
