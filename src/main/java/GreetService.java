@@ -11,7 +11,6 @@ package views.login;
  */
 
 import java.io.Serializable;
-import org.springframework.stereotype.Service;
 
 public class GreetService implements Serializable {
 
