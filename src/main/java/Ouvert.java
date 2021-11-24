@@ -31,21 +31,32 @@ public class Ouvert {
         return idSemestre;
     }
 
-    public void setIdSemestre(int idSemestre) {
-        this.idSemestre = idSemestre;
+    public void setIdSemestre(Connection con, int id, int idSemestre)throws SQLException {
+        String sql = "UPDATE Ouvert SET idSemestre = ? WHERE id = ?";
+        try(PreparedStatement pst = con.prepareStatement(sql)){
+            pst.setInt(1, idSemestre);
+            pst.setInt(2, id);
+            pst.executeUpdate();
+        }
     }
 
-    public void setIdModule(int idModule) {
-        this.idModule = idModule;
+    public void setIdModule(Connection con, int id, int idModule)throws SQLException {
+        String sql = "UPDATE Ouvert SET idModule = ? WHERE id = ?";
+        try(PreparedStatement pst = con.prepareStatement(sql)){
+            pst.setInt(1, idModule);
+            pst.setInt(2, id);
+            pst.executeUpdate();
+        }
     }
-public Ouvert(int idModule, int idSemestre){
-    this.idModule = idModule;
-    this.idSemestre = idSemestre;
-    this.idOuvert = -1;
-}
     
-public void saveOuvert(Connection con, int idModule, int idSemestre) 
-        throws SQLException {
+    public Ouvert(int idModule, int idSemestre){
+        this.idModule = idModule;
+        this.idSemestre = idSemestre;
+        this.idOuvert = -1;
+    }
+    
+    public void saveOuvert(Connection con, int idModule, int idSemestre) 
+           throws SQLException {
     
         Ouvert ouvert = new Ouvert(idModule, idSemestre);
         

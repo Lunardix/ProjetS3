@@ -41,12 +41,22 @@ public class Semestre {
         this.Ng = Ng;
     }
     
-    public void setNumero(int numero) {
-        this.numero = numero;
+    public void setNumero(Connection con, int id, boolean numero)throws SQLException {
+        String sql = "UPDATE Semestre SET numero = ? WHERE id = ?";
+        try(PreparedStatement pst = con.prepareStatement(sql)){
+            pst.setBoolean(1, numero);
+            pst.setInt(2, id);
+            pst.executeUpdate();
+        }
     }
 
-    public void setAnnee(int annee) {
-        this.annee = annee;
+    public void setAnnee(Connection con, int id, int annee)throws SQLException {
+        String sql = "UPDATE Semestre SET annee = ? WHERE id = ?";
+        try(PreparedStatement pst = con.prepareStatement(sql)){
+            pst.setInt(1, annee);
+            pst.setInt(2, id);
+            pst.executeUpdate();
+        }
     }
 
     public void setIdSemestre(int idSemestre) {
@@ -62,14 +72,14 @@ public class Semestre {
         return null;
     }
     
-    public void saveSemestre(Connection con, int annee, int numero, int Ng) 
+    public void saveSemestre(Connection con, int annee, boolean numero, int Ng) 
         throws SQLException {
         Semestre semestre = new Semestre();
         try (PreparedStatement pst = con.prepareStatement(
         "insert into Semestre (annee,numero)values (?,?,?)", 
                 PreparedStatement.RETURN_GENERATED_KEYS)) {
         pst.setInt(1, annee);
-        pst.setInt(2, numero);
+        pst.setBoolean(2, numero);
         pst.setInt(3, Ng);
         pst.executeUpdate();
         ResultSet nouvellesCles = pst.getGeneratedKeys();

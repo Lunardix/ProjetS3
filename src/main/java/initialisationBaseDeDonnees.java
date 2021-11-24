@@ -31,7 +31,7 @@ public class initialisationBaseDeDonnees {
             }
         }
     
-    //m�thode qui cr�e toutes les tables qui vont �tre utilis�es
+    //methode qui cree toutes les tables qui vont etre utilisees
     public void initialisationTables(Connection con)throws SQLException{
         //initialisation table Personne
         try (Statement st = con.createStatement()) {
