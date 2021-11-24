@@ -3,8 +3,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -32,6 +30,15 @@ public class GroupeModule {
     public GroupeModule() {
         this.idGroupeModule = -1;
     }
+    
+    public void setIdModule (Connection con, int idGroupeModule, int idModule, int position)throws SQLException{
+        String sql = "UPDATE GroupeModule SET idModule "+(position)+" = ? WHERE id = ?";
+        try(PreparedStatement pst = con.prepareStatement(sql)){
+            pst.setInt(1, idModule);
+            pst.setInt(2, idGroupeModule);
+            pst.executeUpdate();
+        }
+    }
 
     public void setNom(Connection con, int id, String nom)throws SQLException {
         String sql = "UPDATE GroupeModule SET nom = ? WHERE id = ?";
@@ -42,7 +49,7 @@ public class GroupeModule {
         }
     }
 
-    // ici on utilisera une ft changeIdModule(numéroDuModuleAChanger, idNouveauModule) 
+    // ici on utilisera une méthode changeIdModule(numéroDuModuleAChanger, idNouveauModule) 
     //
     //
     //
@@ -51,16 +58,26 @@ public class GroupeModule {
     
     
     
-    public void ajouterModule(int idgroupeModule, int idModule){
-        if (this.getSize() == nbrModulesMax){
+    public void ajouterModule(Connection con, int idGroupeModule, int idModule, int position){
+        if (position == 11){
             return;
-            // affichage de l'erreur (groupe trop grand)
         }
-        this.listeModules.add(idModule);
+        else if (this.getIdModule(position) == -1 ){
+            setIdModule(con, idGroupeModule, idModule, position);
+            return;
+        }
+        else{
+            ajouterModule(con, idGroupeModule, idModule, (position-1));
+        }
     }
     
-    public void retirerModule(int idModule){
-        this.listeModules.remove(idModule);
+    public void retirerModule(Connection con, int idGroupeModule, int idModule){
+        int position = trouvePosition(COnnection con, int idModule);
+        String sql = "UPDATE GroupeModule SET idModule "+(position)+" = -1 WHERE idModule = ?";
+        try(PreparedStatement pst = con.prepareStatement(sql)){
+            pst.setInt(1, idGroupeModule);
+            pst.executeUpdate();
+        }
     }
 
     public int getIdGroupeModule() {
@@ -71,21 +88,17 @@ public class GroupeModule {
         this.idGroupeModule = idGroupeModule;
     }
     
-    public void saveGroupeModule(Connection con, String nom, ArrayList<Integer> listeModules) 
+    public void saveGroupeModule(Connection con, String nom, int idModule1,int idModule2,int idModule3,int idModule4,int idModule5,int idModule6,int idModule7,int idModule8,int idModule9,int idModule10) 
         throws SQLException {
         
         GroupeModule groupeModule = new GroupeModule();
         String statement = "insert into GroupeModule (nom,";
         String questionMarks = "(?,";
-        for (int i = 0; i< this.getSize(); i++){
-            if (i != (this.getSize()-1)){
-                statement = statement + "module"+ String.valueOf(i+1) +",";
+        for (int i = 0; i< 10; i++){
+                statement = statement + "idModule"+ String.valueOf(i+1) +",";
                 questionMarks = questionMarks + "?,";
-            }
-            else {
                 statement = statement + "module"+ (i+1) +")";
                 questionMarks = questionMarks + "?)";
-            }
         }
         statement = statement + "values " + questionMarks;
         try (PreparedStatement pst = con.prepareStatement(statement, 

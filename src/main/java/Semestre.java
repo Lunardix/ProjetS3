@@ -41,8 +41,6 @@ public class Semestre {
         this.Ng = Ng;
     }
     
-    
-    
     public void setNumero(int numero) {
         this.numero = numero;
     }

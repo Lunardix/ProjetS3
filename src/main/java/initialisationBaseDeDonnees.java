@@ -70,9 +70,9 @@ public class initialisationBaseDeDonnees {
         }
         
         //initialisation table GroupeModule
-        try(Statement st = con.createSatement()){
+        try(Statement st = con.createStatement()){
             st.executeUpdate(
-            "create table GroupeModule (id integer primary key generated always as identity, nom varchar(40),idModule1 int,idModule2 int,idModule3 int,idModule4 int,idModule5 int,idModule6 int,idModule7 int,idModule8 int,idModule9 int,idModule10 int");
+            "create table GroupeModule (id integer primary key generated always as identity, nom varchar(40),idModule1 int default -1,idModule2 int default -1,idModule3 int default -1,idModule4 int default -1,idModule5 int default -1,idModule6 int default -1,idModule7 int default -1,idModule8 int default -1,idModule9 int default -1,idModule10 int default -1");
         }
     }
 }

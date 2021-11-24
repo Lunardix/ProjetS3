@@ -20,7 +20,6 @@ public class Inscription {
     private int idInscription;
 
 
-
     public void setIdInscription(int idInscription) {
         this.idInscription = idInscription;
     }

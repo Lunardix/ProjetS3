@@ -18,6 +18,9 @@ import java.util.Date;
 public class Personne {
     
     private int idPersonne;
+    public int taille;
+    
+    Hash hash;
 
     
     
@@ -25,6 +28,20 @@ public class Personne {
         return idPersonne;
     }
 
+    
+    public String getRandomString(Connection con, String prenom, String nom)throws SQLException {
+        String query = "SELECT * FROM Personne WHERE prenom = ? AND nom = ?";
+        try(PreparedStatement pst = con.prepareStatement(query)){
+            pst.setString(1, prenom);
+            pst.setString(2, nom);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()){
+                return rs.getString("randomString");
+            }
+            else {return null;}
+        }
+    }
+    
     public String getNom(Connection con, int id)throws SQLException {
         String query = "SELECT * FROM Personne WHERE id = ?";
         try(PreparedStatement pst = con.prepareStatement(query)){
@@ -136,7 +153,10 @@ public class Personne {
     }
     
     public int userConnection (Connection con, String prenom, String nom, String mdp, int admin)throws SQLException{
-        String compteUtilisateurEnregistre = "SELECT * FROM Personne WHERE prenom = "+ prenom +" AND nom = "+ nom+ " AND mdp = "+mdp ;
+        taille = (int) ((Math.random() * (30)) + 20);
+        String randomString = getRandomString();
+        String hashMdp = hash.hash(mdp, randomString);
+        String compteUtilisateurEnregistre = "SELECT * FROM Personne WHERE prenom = "+ prenom +" AND nom = "+ nom+ " AND hashMdp = "+ hashMdp ;
         try(PreparedStatement checkUser = con.prepareStatement(compteUtilisateurEnregistre)) {
         ResultSet resultUser = checkUser.executeQuery();
         
@@ -167,20 +187,24 @@ public class Personne {
         throws SQLException {
         
         Personne personne = new Personne();
+        String randomString = hash.randomString();
+        String hashMdp = Hash.hash(mdp, randomString);
         
         try (PreparedStatement pst = con.prepareStatement(
-        "insert into Personne (date,prenom,nom,email,mdp,admin)values (?,?,?,?,?,?)", 
+        "insert into Personne (date,prenom,nom,email,randomString,hashMdp,admin)values (?,?,?,?,?,?,?)", 
                 PreparedStatement.RETURN_GENERATED_KEYS)) {
         pst.setDate(1, date);
         pst.setString(2, prenom);
         pst.setString(3, nom);
         pst.setString(4, email);
-        pst.setString(5, mdp);
-        pst.setBoolean(6, admin);
+        pst.setString(5, randomString);
+        pst.setString(6, hashMdp);
+        pst.setBoolean(7, admin);
         pst.executeUpdate();
         ResultSet nouvellesCles = pst.getGeneratedKeys();
         nouvellesCles.next();
         this.setIdPersonne(nouvellesCles.getInt(1));
         }
     }
+    
 }
