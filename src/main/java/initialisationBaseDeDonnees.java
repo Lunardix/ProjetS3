@@ -36,7 +36,7 @@ public class initialisationBaseDeDonnees {
         //initialisation table Personne
         try (Statement st = con.createStatement()) {
         st.executeUpdate(
-        "create table Personne(id integer primary key generated always as identity,nom varchar(50) not null,prenom varchar(50) not null,dateNaissance date)");
+        "create table Personne(id integer primary key generated always as identity,dateNaissance date,prenom varchar(50) not null,nom varchar(50) not null,email varchar(50),randomString varchar(50),username varchar(50),hashMdp varchar(64)");
         }
             
         //initialisation table Inscirption
@@ -54,7 +54,7 @@ public class initialisationBaseDeDonnees {
         //initialisation table Semestre
         try (Statement st = con.createStatement()) {
         st.executeUpdate(
-        "create table Semestre(id integer primary key generated always as identity,annee int,numero int)");
+        "create table Semestre(id integer primary key generated always as identity,annee int,numero int,Ng int)");
         }
         
         //initialisation table Ouvert

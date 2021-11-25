@@ -56,6 +56,16 @@ public class GroupeModule {
     //
     ///////////////////////////////////////////////////////////////////////////////////
     
+    public void setIdModule(Connection con, int idGroupeModule, int idAncienModule, int idNouveauModule)throws SQLException{
+        String sql = "UPDATE GroupeModule SET nom = ? WHERE id = ? AND idModule%";
+        try(PreparedStatement pst = con.prepareStatement(sql)){
+            pst.setInt(1, idGroupeModule);
+            pst.setInt(2, idGroupeModule);
+            pst.setInt(3, idGroupeModule);
+            pst.executeUpdate();
+        }
+    }
+    
     
     
     public void ajouterModule(Connection con, int idGroupeModule, int idModule, int position){
@@ -72,7 +82,7 @@ public class GroupeModule {
     }
     
     public void retirerModule(Connection con, int idGroupeModule, int idModule){
-        int position = trouvePosition(COnnection con, int idModule);
+        int position = trouvePosition(Connection con, int idModule);
         String sql = "UPDATE GroupeModule SET idModule "+(position)+" = -1 WHERE idModule = ?";
         try(PreparedStatement pst = con.prepareStatement(sql)){
             pst.setInt(1, idGroupeModule);

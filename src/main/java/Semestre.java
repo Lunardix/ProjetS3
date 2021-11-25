@@ -37,8 +37,13 @@ public class Semestre {
         return Ng;
     }
 
-    public void setNg(int Ng) {
-        this.Ng = Ng;
+    public void setNg(Connection con, int id, int Ng)throws SQLException {
+        String sql = "UPDATE Semestre SET Ng = ? WHERE id = ?";
+        try(PreparedStatement pst = con.prepareStatement(sql)){
+            pst.setInt(1, Ng);
+            pst.setInt(2, id);
+            pst.executeUpdate();
+        }
     }
     
     public void setNumero(Connection con, int id, boolean numero)throws SQLException {

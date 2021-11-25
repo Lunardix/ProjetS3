@@ -41,10 +41,10 @@ public class Personne {
         }
     }
     
-    public String getNom(Connection con, int id)throws SQLException {
-        String query = "SELECT * FROM Personne WHERE id = ?";
+    public String getNom(Connection con, String username)throws SQLException {
+        String query = "SELECT * FROM Personne WHERE username = ?";
         try(PreparedStatement pst = con.prepareStatement(query)){
-            pst.setInt(1, id);
+            pst.setString(1, username);
             ResultSet rs = pst.executeQuery();
             if (rs.next()){
                 return rs.getString("nom");
@@ -53,10 +53,10 @@ public class Personne {
         }
     }
 
-    public String getPrenom(Connection con, int id)throws SQLException {
-        String query = "SELECT * FROM Personne WHERE id = ?";
+    public String getPrenom(Connection con, String username)throws SQLException {
+        String query = "SELECT * FROM Personne WHERE username = ?";
         try(PreparedStatement pst = con.prepareStatement(query)){
-            pst.setInt(1, id);
+            pst.setString(1, username);
             ResultSet rs = pst.executeQuery();
             if (rs.next()){
                 return rs.getString("prenom");
@@ -66,10 +66,10 @@ public class Personne {
     }
     
    
-    public Date getDate(Connection con, int id)throws SQLException {
-        String query = "SELECT * FROM Personne WHERE id = ?";
+    public Date getDate(Connection con, String username)throws SQLException {
+        String query = "SELECT * FROM Personne WHERE username = ?";
         try(PreparedStatement pst = con.prepareStatement(query)){
-            pst.setInt(1, id);
+            pst.setString(1, username);
             ResultSet rs = pst.executeQuery();
             if (rs.next()){
                 return rs.getDate("date");
@@ -78,10 +78,10 @@ public class Personne {
         }
     }
 
-    public String getEmail(Connection con, int id)throws SQLException {
-        String query = "SELECT * FROM Personne WHERE id = ?";
+    public String getEmail(Connection con, String username)throws SQLException {
+        String query = "SELECT * FROM Personne WHERE username = ?";
         try(PreparedStatement pst = con.prepareStatement(query)){
-            pst.setInt(1, id);
+            pst.setString(1, username);
             ResultSet rs = pst.executeQuery();
             if (rs.next()){
                 return rs.getString("email");
@@ -90,59 +90,59 @@ public class Personne {
         }
     }
 
-    public String getMdp(Connection con, int id)throws SQLException {
-        String query = "SELECT * FROM Personne WHERE id = ?";
+    public String getMdp(Connection con, String username)throws SQLException {
+        String query = "SELECT * FROM Personne WHERE username = ?";
         try(PreparedStatement pst = con.prepareStatement(query)){
-            pst.setInt(1, id);
+            pst.setString(1, username);
             ResultSet rs = pst.executeQuery();
             if (rs.next()){
-                return rs.getString("mdp");
+                return rs.getString("hashMdp");
             }
             else {return null;}
         }
     }
 
-    public void setMdp(Connection con, int id, String mdp)throws SQLException {
-        String sql = "UPDATE Personne SET mdp = ? WHERE id = ?";
+    public void setMdp(Connection con, String username, String mdp)throws SQLException {
+        String sql = "UPDATE Personne SET mdp = ? WHERE username = ?";
         try(PreparedStatement pst = con.prepareStatement(sql)){
             pst.setString(1, mdp);
-            pst.setInt(2, id);
+            pst.setString(2, username);
             pst.executeUpdate();
         }
     }
     
-    public void setEmail(Connection con, int id, String email)throws SQLException {
-        String sql = "UPDATE Personne SET email = ? WHERE id = ?";
+    public void setEmail(Connection con, String username, String email)throws SQLException {
+        String sql = "UPDATE Personne SET email = ? WHERE username = ?";
         try(PreparedStatement pst = con.prepareStatement(sql)){
             pst.setString(1, email);
-            pst.setInt(2, id);
+            pst.setString(2, username);
             pst.executeUpdate();
         }
     }
     
-    public void setDate(Connection con, int id, java.sql.Date date)throws SQLException {
-        String sql = "UPDATE Personne SET date = ? WHERE id = ?";
+    public void setDate(Connection con, String username, java.sql.Date date)throws SQLException {
+        String sql = "UPDATE Personne SET date = ? WHERE username = ?";
         try(PreparedStatement pst = con.prepareStatement(sql)){
             pst.setDate(1, date);
-            pst.setInt(2, id);
+            pst.setString(2, username);
             pst.executeUpdate();
         }
     }
 
-    public void setPrenom(Connection con, int id, String prenom)throws SQLException {
-        String sql = "UPDATE Personne SET prenom = ? WHERE id = ?";
+    public void setPrenom(Connection con, String username, String prenom)throws SQLException {
+        String sql = "UPDATE Personne SET prenom = ? WHERE username = ?";
         try(PreparedStatement pst = con.prepareStatement(sql)){
             pst.setString(1, prenom);
-            pst.setInt(2, id);
+            pst.setString(2, username);
             pst.executeUpdate();
         }
     }
 
-    public void setNom(Connection con, int id, String nom)throws SQLException {
-        String sql = "UPDATE Personne SET nom = ? WHERE id = ?";
+    public void setNom(Connection con, String username, String nom)throws SQLException {
+        String sql = "UPDATE Personne SET nom = ? WHERE username = ?";
         try(PreparedStatement pst = con.prepareStatement(sql)){
             pst.setString(1, nom);
-            pst.setInt(2, id);
+            pst.setString(2, username);
             pst.executeUpdate();
         }
     }
@@ -228,5 +228,12 @@ public class Personne {
         this.setIdPersonne(nouvellesCles.getInt(1));
         }
     }
-    
+    public void deletePersonne(Connection con, String username) throws SQLException {
+        
+        try (PreparedStatement pst = con.prepareStatement("DELETE FROM Personne WHERE username = ?")) {
+        pst.setString(1, username);
+        pst.executeUpdate();
+        System.out.println("L'utilisateur " + username + " a ete supprime.");
+        }
+    }  
 }

@@ -85,11 +85,6 @@ add(menuBar, message);
    readonlyDatePicker.setReadOnly(true);
 
    add(readonlyDatePicker);
-   
-TextField textField = new TextField("Name");
-Button button = new Button ("Hello");
-button.addClickListener(event ->
-    add(new Span("Hello, " + textField.getValue())));
 
 add(textField, button);
   
@@ -103,3 +98,4 @@ add(textField, button);
     private void navigateToMainPage() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+}
