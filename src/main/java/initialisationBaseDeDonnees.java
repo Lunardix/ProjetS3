@@ -33,10 +33,15 @@ public class initialisationBaseDeDonnees {
     
     //methode qui cree toutes les tables qui vont etre utilisees
     public void initialisationTables(Connection con)throws SQLException{
+        //initialisation schéma base de données
+        try (Statement st = con.createStatement()) {
+        st.executeUpdate(
+        "create schema BaseDeDonnees");
+        }
         //initialisation table Personne
         try (Statement st = con.createStatement()) {
         st.executeUpdate(
-        "create table Personne(id integer primary key generated always as identity,dateNaissance date,prenom varchar(50) not null,nom varchar(50) not null,email varchar(50),randomString varchar(50),username varchar(50),hashMdp varchar(64)");
+        "create table Personne(dateNaissance date,prenom varchar(50) not null,nom varchar(50) not null,email varchar(50),randomString varchar(50),username varchar(50),hashMdp varchar(64)");
         }
             
         //initialisation table Inscirption
@@ -48,7 +53,7 @@ public class initialisationBaseDeDonnees {
         //initialisation table Choix
         try (Statement st = con.createStatement()) {
         st.executeUpdate(
-        "create table Choix(id integer primary key generated always as identity,idModule1 int,idModule2 int,idModule3 int,idPersonne int)");
+        "create table Choix(idPersonne int,idModule1 int,idModule2 int,idModule3 int)");
         }
         
         //initialisation table Semestre
@@ -72,7 +77,7 @@ public class initialisationBaseDeDonnees {
         //initialisation table GroupeModule
         try(Statement st = con.createStatement()){
             st.executeUpdate(
-            "create table GroupeModule (id integer primary key generated always as identity, nom varchar(40),idModule1 int default -1,idModule2 int default -1,idModule3 int default -1,idModule4 int default -1,idModule5 int default -1,idModule6 int default -1,idModule7 int default -1,idModule8 int default -1,idModule9 int default -1,idModule10 int default -1");
+            "create table GroupeModule (id integer primary key generated always as identity, nom varchar(40),idModule1 int default -1,idModule2 int default -1,idModule3 int default -1,idModule4 int default -1,idModule5 int default -1,idModule6 int default -1,idModule7 int default -1,idModule8 int default -1,idModule9 int default -1,idModule10 int default -1, nbrModules int default 0");
         }
     }
 }

@@ -18,7 +18,7 @@ public class Hash {
   
   
     
-  public String randomString(int taille) {
+  public static String randomString(int taille) {
 
     String alphabetMajuscule = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     String alphabetMinuscule = "abcdefghijklmnopqrstuvwxyz";
@@ -55,7 +55,7 @@ public class Hash {
     return hexString.toString();
 }
   
-  public String hash(String mdp, String randomString){
+  public static String hash(String mdp, String randomString){
     MessageDigest digest = null;
     try {
     digest = MessageDigest.getInstance("SHA-256");

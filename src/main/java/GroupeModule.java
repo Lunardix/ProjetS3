@@ -19,12 +19,14 @@ public class GroupeModule {
 
     private int idGroupeModule;
     
-    static int nbrModulesMax = 10;
+    private int nbrModules;
+    
+    public int[10] tableau;
 
     
     
-    public void setNbrModulesMax(int nbr){
-        nbrModulesMax = nbr;
+    public void setNbrModules(int nbr){
+        nbrModules = nbr;
     }
     
     public GroupeModule() {
@@ -32,7 +34,7 @@ public class GroupeModule {
     }
     
     public void setIdModule (Connection con, int idGroupeModule, int idModule, int position)throws SQLException{
-        String sql = "UPDATE GroupeModule SET idModule "+(position)+" = ? WHERE id = ?";
+        String sql = "UPDATE GroupeModule SET idModule "+ (position) +" = ? WHERE id = ?";
         try(PreparedStatement pst = con.prepareStatement(sql)){
             pst.setInt(1, idModule);
             pst.setInt(2, idGroupeModule);
@@ -98,24 +100,23 @@ public class GroupeModule {
         this.idGroupeModule = idGroupeModule;
     }
     
-    public void saveGroupeModule(Connection con, String nom, int idModule1,int idModule2,int idModule3,int idModule4,int idModule5,int idModule6,int idModule7,int idModule8,int idModule9,int idModule10) 
+    public void saveGroupeModule(Connection con, String nom, int[] idModules, int nbrModules) 
         throws SQLException {
-        
         GroupeModule groupeModule = new GroupeModule();
         String statement = "insert into GroupeModule (nom,";
         String questionMarks = "(?,";
-        for (int i = 0; i< 10; i++){
-                statement = statement + "idModule"+ String.valueOf(i+1) +",";
-                questionMarks = questionMarks + "?,";
-                statement = statement + "module"+ (i+1) +")";
-                questionMarks = questionMarks + "?)";
+        for (int i = 0; i < 10; i++){
+            statement = statement + "idModule"+ String.valueOf(i+1) +",";
+            questionMarks = questionMarks + "?,";
         }
+            statement = statement + "nbrModules)";
+            questionMarks = questionMarks + "?)";
         statement = statement + "values " + questionMarks;
         try (PreparedStatement pst = con.prepareStatement(statement, 
                 PreparedStatement.RETURN_GENERATED_KEYS)) {
         pst.setString(1, nom);
-        for (int i = 0; i< this.getSize(); i++){
-            pst.setInt((i+2), listeModules.get(i));
+        for (int i = 0; i < nbrModules; i++){
+            pst.setInt((i+2), idModules[i]);
         }
         pst.executeUpdate();
         ResultSet nouvellesCles = pst.getGeneratedKeys();

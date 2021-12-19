@@ -24,29 +24,37 @@ public class Inscription {
         this.idInscription = idInscription;
     }
 
-    public void setIdPersonne(Connection con, int id, int idPersonne)throws SQLException {
-        String sql = "UPDATE Inscription SET idPersonne = ? WHERE id = ?";
-        try(PreparedStatement pst = con.prepareStatement(sql)){
-            pst.setInt(1, idPersonne);
-            pst.setInt(2, id);
-            pst.executeUpdate();
-        }
-    }
-
-    public void setIdModule(Connection con, int id, int idModule)throws SQLException {
-        String sql = "UPDATE Inscription SET idModule = ? WHERE id = ?";
+    public void setIdModule(Connection con, int idPersonne, int idModule)throws SQLException {
+        String sql = "UPDATE Inscription SET idModule = ? WHERE idPersonne = ?";
         try(PreparedStatement pst = con.prepareStatement(sql)){
             pst.setInt(1, idModule);
-            pst.setInt(2, id);
+            pst.setInt(2, idPersonne);
             pst.executeUpdate();
         }
     }
     
-    public void setIdSemestre(Connection con, int id, int idSemestre)throws SQLException {
-        String sql = "UPDATE Inscription SET idSemestre = ? WHERE id = ?";
+    public void setIdSemestre(Connection con, int idPersonne, int idSemestre)throws SQLException {
+        String sql = "UPDATE Inscription SET idSemestre = ? WHERE idPersonne = ?";
         try(PreparedStatement pst = con.prepareStatement(sql)){
             pst.setInt(1, idSemestre);
-            pst.setInt(2, id);
+            pst.setInt(2, idPersonne);
+            pst.executeUpdate();
+        }
+    }
+    
+    public void deleteInscription (Connection con, int id)throws SQLException{
+        String sql = "DELETE FROM Inscription WHERE id = ?";
+        try(PreparedStatement pst = con.prepareStatement(sql)){
+            pst.setInt(1, id);
+            pst.executeUpdate();
+        }
+    }
+    public void deleteInscription (Connection con, int idModule, int idSemestre, int idPersonne)throws SQLException{
+        String sql = "DELETE FROM Inscription WHERE idPersonne = ? AND idModule = ? AND idSemestre = ?";
+        try(PreparedStatement pst = con.prepareStatement(sql)){
+            pst.setInt(1, idPersonne);
+            pst.setInt(2, idModule);
+            pst.setInt(3, idSemestre);
             pst.executeUpdate();
         }
     }

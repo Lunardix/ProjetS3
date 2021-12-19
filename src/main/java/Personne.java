@@ -18,9 +18,11 @@ import java.util.Date;
 public class Personne {
     
     private int idPersonne;
-    public int taille;
+    public static int taille;
+    public static String randomString;
+    public static String hashMdp;
     
-    Hash hash;
+    static Hash hash;
 
     
     
@@ -29,7 +31,7 @@ public class Personne {
     }
 
     
-    public String getRandomString(Connection con, String username)throws SQLException {
+    public static String getRandomStringFromUser(Connection con, String username)throws SQLException {
         String query = "SELECT * FROM Personne WHERE username = ?";
         try(PreparedStatement pst = con.prepareStatement(query)){
             pst.setString(1, username);
@@ -163,16 +165,15 @@ public class Personne {
         return nombre;
     }
     
-    public int userConnection (Connection con, String username, String mdp, int admin)throws SQLException{
+    public static int userConnection (Connection con, String username, String mdp)throws SQLException{
         taille = (int) ((Math.random() * (30)) + 20);
-        String randomString = getRandomString(con, username);
-        String hashMdp = hash.hash(mdp, randomString);
+        randomString = getRandomStringFromUser(con, username);
+        hashMdp = hash.hash(mdp, randomString);
         String compteUtilisateurEnregistre = "SELECT * FROM Personne WHERE username = ? AND hashMdp = ?";
         try(PreparedStatement checkUser = con.prepareStatement(compteUtilisateurEnregistre)) {
             checkUser.setString(1, username);
             checkUser.setString(2, hashMdp);
         ResultSet resultUser = checkUser.executeQuery();
-        
         if(resultUser.next()){
             
             String compteAdministrateurEnregistre = "SELECT * FROM Personne WHERE username = ? AND hashMdp = ? AND admin = 1" ;

@@ -48,6 +48,14 @@ public class Ouvert {
             pst.executeUpdate();
         }
     }
+     public void fermerModule(Connection con, int idModule, int idSemestre)throws SQLException{
+         String sql = "DELETE FROM Ouvert WHERE idModule = ? AND idSemestre = ?";
+         try(PreparedStatement pst = con.prepareStatement(sql)){
+            pst.setInt(1, idModule);
+            pst.setInt(2, idSemestre);
+            pst.executeUpdate();
+        }
+     }
     
     public Ouvert(int idModule, int idSemestre){
         this.idModule = idModule;
