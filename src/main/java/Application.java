@@ -1,6 +1,3 @@
-package views.login;
-
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -9,22 +6,25 @@ package views.login;
 
 /**
  *
- * @author ckarimou01
+ * @author ACER
  */
-
+import com.vaadin.flow.component.dependency.NpmPackage;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.vaadin.artur.helpers.LaunchUtil;
 
 /**
  * The entry point of the Spring Boot application.
  */
 @SpringBootApplication
+@NpmPackage(value = "lumo-css-framework", version = "^4.0.10")
+@NpmPackage(value = "line-awesome", version = "1.3.0")
 public class Application extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        LaunchUtil.launchBrowserInDevelopmentMode(SpringApplication.run(Application.class, args));
     }
-
 }
+    
 
