@@ -21,7 +21,7 @@ public class GroupeModule {
     
     private int nbrModules;
     
-    public int[10] tableau;
+    public int[] tableau = new int[10];
 
     
     
@@ -85,7 +85,7 @@ public class GroupeModule {
     
     public void retirerModule(Connection con, int idGroupeModule, int idModule){
         int position = trouvePosition(Connection con, int idModule);
-        String sql = "UPDATE GroupeModule SET idModule "+(position)+" = -1 WHERE idModule = ?";
+        String sql = "UPDATE GroupeModule SET idModule "+(position)+" = -1 WHERE idGroupeModule = ?";
         try(PreparedStatement pst = con.prepareStatement(sql)){
             pst.setInt(1, idGroupeModule);
             pst.executeUpdate();
