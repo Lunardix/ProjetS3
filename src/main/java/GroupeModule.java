@@ -57,20 +57,22 @@ public class GroupeModule {
     //
     //
     ///////////////////////////////////////////////////////////////////////////////////
-    
-    public void setIdModule(Connection con, int idGroupeModule, int idAncienModule, int idNouveauModule)throws SQLException{
-        String sql = "UPDATE GroupeModule SET nom = ? WHERE id = ? AND idModule%";
-        try(PreparedStatement pst = con.prepareStatement(sql)){
+
+    public int getNbrModules(Connection con, int idGroupeModule)throws SQLException {
+        String query = "SELECT NbrModules FROM GroupeModule WHERE id = ?";
+        try(PreparedStatement pst = con.prepareStatement(query)){
             pst.setInt(1, idGroupeModule);
-            pst.setInt(2, idGroupeModule);
-            pst.setInt(3, idGroupeModule);
-            pst.executeUpdate();
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()){
+                return rs.getInt("NbrModules");
+            }
+            else {return 0;}
         }
     }
     
     
-    
-    public void ajouterModule(Connection con, int idGroupeModule, int idModule, int position){
+    public void ajouterModule(Connection con, int idGroupeModule, int idModule)throws SQLException{
+        int position = getNbrModules(con, idGroupeModule) + 1;
         if (position == 11){
             return;
         }
@@ -79,12 +81,12 @@ public class GroupeModule {
             return;
         }
         else{
-            ajouterModule(con, idGroupeModule, idModule, (position-1));
+            setIdModule(con, idGroupeModule, idModule, (position-1));
         }
     }
     
-    public void retirerModule(Connection con, int idGroupeModule, int idModule){
-        int position = trouvePosition(Connection con, int idModule);
+    public void retirerModule(Connection con, int idGroupeModule, int idModule)throws SQLException{
+        int position = trouvePosition(con ,idModule);
         String sql = "UPDATE GroupeModule SET idModule "+(position)+" = -1 WHERE idGroupeModule = ?";
         try(PreparedStatement pst = con.prepareStatement(sql)){
             pst.setInt(1, idGroupeModule);

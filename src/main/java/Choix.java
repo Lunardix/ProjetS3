@@ -15,10 +15,13 @@ import java.sql.SQLException;
  *
  * @author lyoubi01
  */
+
 public class Choix {
     private int idChoix;
 
- 
+    public String stringChoix = "";
+    
+    
     public int getIdChoix() {
         return idChoix;
     }
@@ -85,5 +88,18 @@ public class Choix {
         
         this.setIdChoix(nouvellesCles.getInt(1));
         }
+    }
+    
+    public String getStringChoix(Connection con)throws SQLException{
+        String query = "SELECT * FROM Choix";
+        try(PreparedStatement pst = con.prepareStatement(query)){
+            ResultSet rs = pst.executeQuery();
+            while(rs.next()){
+                stringChoix = stringChoix + rs.getString("idPersonne") +rs.getString("idModule1") + rs.getString("idModule2") + rs.getString("idModule3");
+            }
+        }
+        return stringChoix;
+    }
+        
     }
 }
