@@ -17,7 +17,6 @@ import java.util.Date;
  */
 public class Personne {
     
-    private int idPersonne;
     public static int taille;
     public static String randomString;
     public static String hashMdp;
@@ -25,14 +24,8 @@ public class Personne {
     static Hash hash;
 
     
-    
-    public int getIdPersonne() {
-        return idPersonne;
-    }
-
-    
     public static String getRandomStringFromUser(Connection con, String username)throws SQLException {
-        String query = "SELECT * FROM Personne WHERE username = ?";
+        String query = "SELECT randomString FROM Personne WHERE username = ?";
         try(PreparedStatement pst = con.prepareStatement(query)){
             pst.setString(1, username);
             ResultSet rs = pst.executeQuery();
@@ -44,7 +37,7 @@ public class Personne {
     }
     
     public String getNom(Connection con, String username)throws SQLException {
-        String query = "SELECT * FROM Personne WHERE username = ?";
+        String query = "SELECT nom FROM Personne WHERE username = ?";
         try(PreparedStatement pst = con.prepareStatement(query)){
             pst.setString(1, username);
             ResultSet rs = pst.executeQuery();
@@ -56,7 +49,7 @@ public class Personne {
     }
 
     public String getPrenom(Connection con, String username)throws SQLException {
-        String query = "SELECT * FROM Personne WHERE username = ?";
+        String query = "SELECT prenom FROM Personne WHERE username = ?";
         try(PreparedStatement pst = con.prepareStatement(query)){
             pst.setString(1, username);
             ResultSet rs = pst.executeQuery();
@@ -69,7 +62,7 @@ public class Personne {
     
    
     public Date getDate(Connection con, String username)throws SQLException {
-        String query = "SELECT * FROM Personne WHERE username = ?";
+        String query = "SELECT date FROM Personne WHERE username = ?";
         try(PreparedStatement pst = con.prepareStatement(query)){
             pst.setString(1, username);
             ResultSet rs = pst.executeQuery();
@@ -81,7 +74,7 @@ public class Personne {
     }
 
     public String getEmail(Connection con, String username)throws SQLException {
-        String query = "SELECT * FROM Personne WHERE username = ?";
+        String query = "SELECT email FROM Personne WHERE username = ?";
         try(PreparedStatement pst = con.prepareStatement(query)){
             pst.setString(1, username);
             ResultSet rs = pst.executeQuery();
@@ -92,8 +85,8 @@ public class Personne {
         }
     }
 
-    public String getMdp(Connection con, String username)throws SQLException {
-        String query = "SELECT * FROM Personne WHERE username = ?";
+    public String getHashMdp(Connection con, String username)throws SQLException {
+        String query = "SELECT hashMdp FROM Personne WHERE username = ?";
         try(PreparedStatement pst = con.prepareStatement(query)){
             pst.setString(1, username);
             ResultSet rs = pst.executeQuery();
@@ -148,10 +141,6 @@ public class Personne {
             pst.executeUpdate();
         }
     }
-
-    public void setIdPersonne(int idPersonne) {
-        this.idPersonne = idPersonne;
-    }
     
     public int getNombreUtilisateursMemeNom(Connection con, String prenom, String nom)throws SQLException{
         int nombre = 0;
@@ -193,16 +182,11 @@ public class Personne {
         }
         }
     }
-
-    
-    public Personne(){
-        this.idPersonne = -1;
-    }
     
     public void savePersonne(Connection con, java.sql.Date date, String prenom, String nom, String mdp, String email, boolean admin) 
         throws SQLException {
         
-        Personne personne = new Personne();
+        
         taille = (int) ((Math.random() * (30)) + 20);
         String randomString = hash.randomString(taille);
         String hashMdp = hash.hash(mdp, randomString);
@@ -212,8 +196,7 @@ public class Personne {
         String username = prenom.charAt(0) + nom + String.format("%02d", numeroUser);
         
         try (PreparedStatement pst = con.prepareStatement(
-        "insert into Personne (date,prenom,nom,email,randomString,username,hashMdp,admin)values (?,?,?,?,?,?,?)", 
-                PreparedStatement.RETURN_GENERATED_KEYS)) {
+        "insert into Personne (date,prenom,nom,email,randomString,username,hashMdp,admin)values (?,?,?,?,?,?,?)")) {
         pst.setDate(1, date);
         pst.setString(2, prenom);
         pst.setString(3, nom);
@@ -226,7 +209,6 @@ public class Personne {
         ResultSet nouvellesCles = pst.getGeneratedKeys();
         nouvellesCles.next();
         System.out.println("Le nom d'utilisateur de l'utilisateur enregistre est : " + username);
-        this.setIdPersonne(nouvellesCles.getInt(1));
         }
     }
     public void deletePersonne(Connection con, String username) throws SQLException {
