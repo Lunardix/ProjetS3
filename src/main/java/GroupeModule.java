@@ -23,7 +23,7 @@ public class GroupeModule {
     
     public int[] tableau = new int[10];
 
-    
+    public int idModule = -1;
     
     public void setNbrModules(int nbr){
         nbrModules = nbr;
@@ -40,6 +40,18 @@ public class GroupeModule {
             pst.setInt(2, idGroupeModule);
             pst.executeUpdate();
         }
+    }
+    
+    public int getIdModule (Connection con, int idGroupeModule, int position)throws SQLException{
+        String query = "SELECT idModule "+ (position) +" FROM GroupeModule WHERE id = ?";
+        try(PreparedStatement pst = con.prepareStatement(query)){
+            pst.setInt(1, idGroupeModule);
+            ResultSet rs = pst.executeQuery();
+            if(rs.next()){
+                idModule = rs.getInt("idModule"+position);
+            }
+        }
+        return idModule;
     }
 
     public void setNom(Connection con, int id, String nom)throws SQLException {

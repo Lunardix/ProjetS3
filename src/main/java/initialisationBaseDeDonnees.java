@@ -24,7 +24,7 @@ public class initialisationBaseDeDonnees {
                 throw new Error(ex);
             }
         try (Connection con = postgres.connect()) {
-        initialisationTables(con);
+        initialisationSchema(con);
         }
         catch (Exception ex) {
                 throw new Error(ex);
@@ -32,8 +32,8 @@ public class initialisationBaseDeDonnees {
         }
     
     //methode qui cree toutes les tables qui vont etre utilisees
-    public void initialisationTables(Connection con)throws SQLException{
-        //initialisation schÃ©ma base de donnÃ©es
+    public void initialisationSchema(Connection con)throws SQLException{
+        //initialisation schema base de donnÃ©es
         try (Statement st = con.createStatement()) {
             st.executeUpdate(
             "create schema BaseDeDonnees");
@@ -49,7 +49,7 @@ public class initialisationBaseDeDonnees {
         
             //initialisation table Choix
             st.executeUpdate(
-            "create table Choix(idPersonne int,idModule1 int,idModule2 int,idModule3 int)");
+            "create table Choix(id integer primary key generated always as identity,idPersonne int,idModule1 int,idModule2 int,idModule3 int,idGroupeModule int)");
         
             //initialisation table Semestre
             st.executeUpdate(
@@ -86,6 +86,9 @@ public class initialisationBaseDeDonnees {
             st.executeUpdate("alter table Choix add constraint fk_choix_module2 foreign key (idModule2) references Module (id)");
             //Ajout du lien entre les tables, on spécifie que idModule3 est une clé étrangère dans la table choix 
             st.executeUpdate("alter table Choix add constraint fk_choix_module3 foreign key (idModule3) references Module (id)");
+            
+            //Ajout du lien entre les tables, on spécifie que idGroupeModule est une clé étrangère dans la table choix 
+            st.executeUpdate("alter table Choix add constraint fk_choix_groupeModule foreign key (idGroupeModule) references GroupeModule (id)");
             
         }
     }

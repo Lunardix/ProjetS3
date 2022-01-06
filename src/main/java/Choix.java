@@ -70,18 +70,19 @@ public class Choix {
         this.idChoix = -1;
     }
     
-    public void saveChoix(Connection con, int idPersonne, int idModule1, int idModule2, int idModule3) 
+    public void saveChoix(Connection con, int idPersonne, int idModule1, int idModule2, int idModule3, int idGroupeModule) 
         throws SQLException {
        
         Choix choix = new Choix();
         
         try (PreparedStatement pst = con.prepareStatement(
-        "insert into Choix (idPersonne,idModule1, idModule2, idModule3)values (?,?,?,?)", 
+        "insert into Choix (idPersonne,idModule1, idModule2, idModule3, idGroupeModule)values (?,?,?,?,?)", 
                 PreparedStatement.RETURN_GENERATED_KEYS)) {
         pst.setInt(1, idPersonne);
         pst.setInt(2, idModule1);
         pst.setInt(3, idModule2);
         pst.setInt(4, idModule3);
+        pst.setInt(5, idGroupeModule);
         pst.executeUpdate();
         ResultSet nouvellesCles = pst.getGeneratedKeys();
         nouvellesCles.next();
